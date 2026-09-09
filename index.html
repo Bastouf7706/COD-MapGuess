@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>COD MapGuess</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <div class="stats-header">
+
+                <p id="streak">
+                    🔥 Série : 0
+                </p>
+
+                <p id="meilleurStreak">
+                    🏆 Record : 0
+                </p>
+
+            </div>
+
+            <div class="langue">
+
+                <select id="choixLangue">
+
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="en">🇬🇧 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                    <option value="ru">🇷🇺 Русский</option>
+
+                </select>
+
+            </div>
+
+            <a href="patchnotes.html" class="boutonPatchNotes">
+                🛠️ Patch Notes
+            </a>
+
+        <h1>
+            COD MAPGUESS
+        </h1>
+
+        <p id="scoreTotal">
+        👤 <span data-i18n="scoreTotal">Score total</span> :
+            <span id="scoreTotalValeur">0</span>
+        </p>
+
+    </div>
+
+        <div class="prochain-defi">
+
+            <p>
+                🌍 <span data-i18n="nouveauDefi">
+                    Nouveau défi dans
+                </span>
+            </p>
+
+            <p id="compteRebours">
+                00 h 00 min 00 s
+            </p>
+
+        </div>
+
+        <div id="bandeauDefi">
+            <div class="ligneDefi"></div>
+
+                <h3 id="numeroDefi"></h3>
+                <p id="defiPrecedent"></p>
+
+            <div class="ligneDefi"></div>
+        </div>
+
+        <div class="zone-jeu">
+
+            <div class="stats-gauche">
+
+                <p id="score">
+                    <span data-i18n="score">Score</span> : 
+                    <span id="scoreValeur">0</span>
+                </p>
+
+                <p id="chrono">
+                    Temps : 00:00
+                </p>
+
+                <p id="tentatives">
+                    Tentatives : 0
+                </p>
+
+            </div>
+
+            <div class="centre-jeu">
+
+                <h2>
+                    <span data-i18n="difficulteJour">
+                        Difficulté du jour
+                    </span> :
+                    <span id="difficulte"></span>
+                </h2>
+
+
+                <div class="map">
+
+                    <img id="mapImage" src="" alt="Map du jour">
+
+                </div>
+
+
+                <p id="resultat"></p>
+
+                <div class="zone-reponse">
+
+                    <input
+                        id="reponse"
+                        type="text"
+                        placeholder="Nom de la carte">
+
+                    <div id="suggestions"></div>
+
+                </div>
+
+            </div>
+
+            <div class="indices">
+
+                <h3 data-i18n="indices">
+                    💡 Indices
+                </h3>
+
+                <p id="indiceJeu">🎮 Jeu : ???</p>
+
+                <p id="indiceDate">📅 Sortie : ???</p>
+
+                <p id="indiceNom">🔤 Nom : ????</p>
+
+            </div>
+
+
+        </div>
+
+        <h3 data-i18n="tentatives">
+            Essais
+        </h3>
+
+        <ul id="listeEssais">
+        </ul>
+
+    </div>
+
+    <div id="fenetreVictoire" class="popup-cachee">
+
+        <div class="popup">
+
+            <h2>
+            🏆 <span data-i18n="defiReussi">Défi réussi</span>
+            </h2>
+
+            <div class="ligneDefi"></div>
+
+                <h3 id="popupNumeroDefi"></h3>
+
+            <div class="ligneDefi"></div>
+
+        <p>
+            <strong>🗺️ <span data-i18n="nom">Carte</span> :</strong>
+            <span id="popupCarte"></span>
+        </p>
+
+        <p>
+            <strong>🎮 <span data-i18n="jeu">Jeu</span> :</strong>
+            <span id="popupJeu"></span>
+        </p>
+
+        <p>
+            <strong>⭐ <span data-i18n="difficulteJour">Difficulté</span> :</strong>
+            <span id="popupDifficulte"></span>
+        </p>
+
+        <hr>
+
+        <p>
+
+            <strong>
+            ⏱️ <span data-i18n="temps">Temps</span> :
+            </strong>
+
+            <span id="popupTemps"></span>
+        </p>
+
+        <p>
+            <strong>
+            🎯 <span data-i18n="tentatives">Tentatives</span> :
+            </strong>
+
+            <span id="popupTentatives"></span>
+        </p>
+
+        <p>
+            <strong>
+            🌍 <span data-i18n="joueursTrouve">Joueurs ayant trouvé</span> :
+            </strong>
+
+            <span id="popupJoueurs"></span>
+        </p>
+
+        <p>
+            <strong>
+            📊 Pourcentage :
+            </strong>
+
+            <span id="popupPourcentage"></span>
+        </p>
+
+        <hr>
+
+        <p>
+            <span data-i18n="nouveauDefi">
+                Nouveau défi dans
+            </span>
+            <br>
+            <strong id="popupCompteRebours"></strong>
+        </p>
+
+        <button id="fermerPopup" data-i18n="fermer">
+            Fermer
+        </button>
+
+    </div>
+
+</div>
+
+    <script src="js/script.js"></script>
+    
+</body>
+
+</html>
