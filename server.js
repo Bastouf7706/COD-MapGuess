@@ -171,18 +171,21 @@ async function sauvegarderHistorique(defi) {
             numero,
             carte_id,
             joueurs,
-            reussites
+            reussites,
+            visiteurs
         )
-        VALUES ($1, $2, $3, $4)
+        VALUES ($1, $2, $3, $4, $5)
         ON CONFLICT (numero) DO UPDATE SET
             carte_id = EXCLUDED.carte_id,
             joueurs = EXCLUDED.joueurs,
-            reussites = EXCLUDED.reussites
+            reussites = EXCLUDED.reussites,
+            visiteurs = EXCLUDED.visiteurs
     `, [
         defi.numero,
         defi.carteId,
         defi.joueurs,
-        defi.reussites
+        defi.reussites,
+        defi.visiteurs
     ]);
 
     console.log(`📜 Défi #${defi.numero} sauvegardé dans PostgreSQL.`);
@@ -239,14 +242,12 @@ async function synchroniserStreaks() {
     console.log("✅ Synchronisation des streaks terminée.");
 }
 
-function calculerPourcentage(joueurs, reussites) {
-
-    if (joueurs === 0) {
+function calculerPourcentage(visiteurs, reussites) {
+    if (visiteurs === 0) {
         return 0;
     }
 
-    return (reussites / joueurs) * 100;
-
+    return (reussites / visiteurs) * 100;
 }
 
 function obtenirDateDuDefi() {
@@ -448,126 +449,83 @@ app.get("/api/map", async (req, res) => {
     res.json({
 
         carte: carteActuelle,
-
         defi: {
-
             numero: etat.numeroDefi,
-
             prochainReset: prochainReset.getTime()
-
         },
-
         precedent: cartePrecedente
             ? {
-
                 numero: dernierDefi.numero,
-
                 nom: cartePrecedente.nom,
-
                 pourcentage: calculerPourcentage(
-                    dernierDefi.joueurs,
+                    dernierDefi.visiteurs,
                     dernierDefi.reussites
                 )
-
             }
             : null
-
     });
     console.log("5 - Après res.json");
-
 });
 
 // Vérifie la réponse du joueur
 app.post("/api/verifier", async (req, res) => {
-
     await initialiserCarteDuJour();
-
     const carte = maps.find(
         map => map.id === etat.carteId
     );
-
     if (!carte) {
         return res.status(500).json({
             erreur: "Carte du jour introuvable."
         });
     }
-
     const playerId = req.body.playerId;
     const utiliseTousLesIndices = req.body.utiliseTousLesIndices;
-
     const reponse = req.body.reponse
         .trim()
         .toLowerCase();
-
     console.log("Carte actuelle :", carte.nom);
-
     const correcte = carte.reponses.some(rep =>
         rep.toLowerCase() === reponse
     );
-
     // Nouveau joueur du défi ?
     if (!etat.joueursVus.includes(playerId)) {
-
-    etat.joueursVus.push(playerId);
-    etat.joueurs++;
-
+        etat.joueursVus.push(playerId);
+        etat.joueurs++;
     }
-
     // Première réussite de ce joueur ?
     if (
         correcte &&
         !utiliseTousLesIndices &&
         !etat.joueursAyantTrouve.includes(playerId)
     ) {
-
         etat.joueursAyantTrouve.push(playerId);
         etat.reussites++;
-
     }
     await sauvegarderEtat();
-
     const pourcentage = etat.joueurs === 0
         ? 0
-        : (etat.reussites / etat.joueurs) * 100;
-        
+        : (etat.reussites / etat.joueurs) * 100;       
     res.json({
-
         correct: correcte,
-
         statistiques: {
-
             joueurs: etat.joueurs,
             reussites: etat.reussites,
             pourcentage: pourcentage
-
         }
-
     });
-
 });
 
 async function obtenirJoueur(playerId) {
-
     let joueur = await obtenirJoueurDepuisDB(playerId);
-
     if (!joueur) {
-
         joueur = {
-
             id: playerId,
-
             scoreTotal: 0,
-
             defisRecompenses: [],
-
             streak: 0,
-
             meilleurStreak: 0,
-
             dernierDefiJoue: null
-
         };
-
         await pool.query(`
             INSERT INTO joueurs (
                 id,
@@ -586,14 +544,10 @@ async function obtenirJoueur(playerId) {
             joueur.meilleurStreak,
             joueur.dernierDefiJoue
         ]);
-
         console.log("👤 Nouveau joueur créé dans PostgreSQL :", playerId);
     }
-
     if (!joueur.defisRecompenses) {
-
         joueur.defisRecompenses = [];
-
         await pool.query(`
             UPDATE joueurs
             SET defis_recompenses = $1
@@ -602,64 +556,42 @@ async function obtenirJoueur(playerId) {
             joueur.defisRecompenses,
             joueur.id
         ]);
-
     }
-
     return joueur;
 }
 
 async function ajouterScoreJoueur(playerId, points, numeroDefi) {
-
     const joueur = await obtenirJoueur(playerId);
-
     console.log("=== STREAK ===");
     console.log("Dernier défi joué :", joueur.dernierDefiJoue);
     console.log("Défi actuel :", numeroDefi);
     console.log("Streak actuelle :", joueur.streak);
-
     if (
         joueur.dernierDefiJoue !== null &&
         joueur.dernierDefiJoue !== 0 &&
         numeroDefi <= joueur.dernierDefiJoue
     ) {
-
         return joueur;
-
     }
-
     // Empêche de reprendre les points
     if (joueur.defisRecompenses.includes(numeroDefi)) {
-
         return joueur;
-
     }
-
     // Ajout du score
     joueur.scoreTotal += points;
-
     joueur.defisRecompenses.push(numeroDefi);
-
     // Gestion de la streak
     if (joueur.dernierDefiJoue === numeroDefi - 1) {
-
         joueur.streak++;
-
     } 
     else {
-
         joueur.streak = 1;
-
     }
-
     joueur.dernierDefiJoue = numeroDefi;
-
     if (joueur.streak > joueur.meilleurStreak) {
-
         joueur.meilleurStreak = joueur.streak;
     }
-
     console.log("Nouvelle streak :", joueur.streak);
-
     // Sauvegarde dans PostgreSQL
     await pool.query(`
         UPDATE joueurs
@@ -678,99 +610,67 @@ async function ajouterScoreJoueur(playerId, points, numeroDefi) {
         joueur.dernierDefiJoue,
         joueur.id
     ]);
-
     console.log("💾 Score sauvegardé dans PostgreSQL.");
-
     return joueur;
 }
 
 app.get("/api/score/:playerId", async (req, res) => {
-
     try {
-
         const joueur = await obtenirJoueur(
             req.params.playerId
         );
-
         res.json({
-
             scoreTotal: joueur.scoreTotal,
-
             streak: joueur.streak,
-
             meilleurStreak: joueur.meilleurStreak,
-
             dernierDefiJoue: joueur.dernierDefiJoue
-
         });
-
     } catch (erreur) {
-
         console.error(
             "❌ Erreur lors de la récupération du score :",
             erreur
         );
-
         res.status(500).json({
             erreur: "Impossible de récupérer le score."
         });
-
     }
-
 });
 
 app.post("/api/ajouterScore", async (req, res) => {
-
     console.log("RECEPTION AJOUT SCORE :", req.body);
-
     const playerId = req.body.playerId;
     const points = req.body.points;
     const numeroDefi = req.body.numeroDefi;
-
     try {
-
         const nouveauScore = await ajouterScoreJoueur(
             playerId,
             points,
             numeroDefi
         );
-
         console.log("REPONSE SCORE ENVOYEE :", nouveauScore);
-
         res.json({
-
             scoreTotal: nouveauScore.scoreTotal,
-
             streak: nouveauScore.streak,
-
             meilleurStreak: nouveauScore.meilleurStreak
-
         });
-
     } catch (erreur) {
-
         console.error(
             "❌ Erreur lors de l'ajout du score :",
             erreur
         );
-
         res.status(500).json({
             erreur: "Impossible d'ajouter le score."
         });
-
     }
-
 });
 
 // Permet au site de connaître le nom des maps
 app.get("/api/cartes", (req,res)=>{
-
     res.json(
         maps.map(map => ({
             nom: map.nom
         }))
     );
-
 });
 
 // Démarrage du serveur
