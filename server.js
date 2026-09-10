@@ -51,6 +51,7 @@ async function obtenirEtatDepuisDB() {
             reussites,
             joueurs_vus,
             joueurs_ayant_trouve,
+            visiteurs_vus,
             pioche
         FROM etat
         WHERE id = 1
@@ -66,7 +67,8 @@ async function obtenirEtatDepuisDB() {
             numero,
             carte_id,
             joueurs,
-            reussites
+            reussites,
+            visiteurs
         FROM historique
         ORDER BY numero ASC
     `);
@@ -78,13 +80,15 @@ async function obtenirEtatDepuisDB() {
         reussites: etatDB.reussites,
         joueursVus: etatDB.joueurs_vus || [],
         joueursAyantTrouve: etatDB.joueurs_ayant_trouve || [],
+        visiteursVus: etatDB.visiteurs_vus || [],
         pioche: etatDB.pioche || [],
         historique: historiqueResult.rows.map(defi => ({
-    numero: defi.numero,
-    carteId: defi.carte_id,
-    joueurs: defi.joueurs,
-    reussites: defi.reussites
-    })),
+            numero: defi.numero,
+            carteId: defi.carte_id,
+            joueurs: defi.joueurs,
+            reussites: defi.reussites,
+            visiteurs: defi.visiteurs
+        })),
     };
 }
 
@@ -141,7 +145,8 @@ async function sauvegarderEtat() {
             reussites = $5,
             joueurs_vus = $6,
             joueurs_ayant_trouve = $7,
-            pioche = $8
+            visiteurs_vus = $8,
+            pioche = $9
         WHERE id = 1
     `, [
         etat.date,
@@ -151,6 +156,7 @@ async function sauvegarderEtat() {
         etat.reussites,
         etat.joueursVus,
         etat.joueursAyantTrouve,
+        etat.visiteursVus,
         etat.pioche
     ]);
 
@@ -299,6 +305,7 @@ async function initialiserCarteDuJour() {
 
         etat.joueursVus = [];
         etat.joueursAyantTrouve = [];
+        etat.visiteursVus = [];
 
         etat.date = aujourdHui;
 
@@ -327,22 +334,18 @@ async function initialiserCarteDuJour() {
             if (etat.carteId !== null) {
 
                 const defiTermine = {
+                    numero: etat.numeroDefi,
+                    carteId: etat.carteId,
+                    joueurs: etat.joueurs,
+                    reussites: etat.reussites,
+                    visiteurs: etat.visiteursVus.length
+                };
 
-                numero: etat.numeroDefi,
+                etat.historique.push(defiTermine);
 
-                carteId: etat.carteId,
+                await sauvegarderHistorique(defiTermine);
 
-                joueurs: etat.joueurs,
-
-                reussites: etat.reussites
-
-            };
-
-        etat.historique.push(defiTermine);
-
-        await sauvegarderHistorique(defiTermine);
-
-    }
+            }
 
             // Nouvelle pioche si nécessaire
             if (etat.pioche.length === 0) {
@@ -404,6 +407,18 @@ app.get("/api/map", async (req, res) => {
     console.log("1 - Début /api/map");
     await initialiserCarteDuJour();
     console.log("2 - Carte initialisée");
+
+    const playerId = req.query.playerId;
+
+        if (
+            playerId &&
+            !etat.visiteursVus.includes(playerId)
+        ) {
+            etat.visiteursVus.push(playerId);
+            await sauvegarderEtat();
+
+            console.log("👀 Nouveau visiteur :", playerId);
+        }
 
     const prochainReset = new Date();
     console.log("3 - Reset créé");

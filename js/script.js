@@ -279,7 +279,9 @@ async function chargerCarte() {
     try {
 
         await chargerSuggestions();
-        const response = await fetch("/api/map");
+        const response = await fetch(
+            `/api/map?playerId=${encodeURIComponent(playerId)}`
+        );
         const data = await response.json();
 
         carteDuJour = data.carte;
