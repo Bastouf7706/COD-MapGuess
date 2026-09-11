@@ -310,9 +310,11 @@ async function chargerCarte() {
         await chargerScoreTotal();
         console.log("Clé :", window.cleDefi);
 
-        const sauvegarde = JSON.parse(
-            localStorage.getItem(window.cleDefi)
-        );
+        const sauvegardeBrute = localStorage.getItem(window.cleDefi);
+
+        const sauvegarde = sauvegardeBrute
+            ? JSON.parse(sauvegardeBrute)
+            : null;
         
         if (sauvegarde) {
 
@@ -372,7 +374,7 @@ async function chargerCarte() {
 
         }
 
-        image.src = `/images/${carteDuJour.codeJeu}/${carteDuJour.image}`;
+        image.src = "/api/image";
 
         demarrerCompteRebours(defiDuJour.prochainReset);
         afficherDifficulte(
@@ -688,63 +690,6 @@ function afficherIndices() {
 
     }
 
-
-    // Première lettre après 9 essais
-
-    if (nombreTentatives >= 9) {
-
-        let nom = carteDuJour.nom;
-        let masque = "";
-
-        for (let i = 0; i < nom.length; i++) {
-
-            if (i === 0 || nom[i] === " ") {
-                masque += nom[i];
-            } else {
-                masque += "?";
-            }
-
-        }
-
-        indiceNom.textContent =
-            `🔤 ${traductions[langueActuelle].nom} : ${masque}`;
-
-    }
-
-
-    // Une lettre supplémentaire à chaque essai après 10
-
-    if (nombreTentatives >= 10) {
-
-        let nom = carteDuJour.nom;
-        let lettresRevelees = nombreTentatives - 8;
-        let masque = "";
-
-        for (let i = 0; i < nom.length; i++) {
-
-            if (
-                nom[i] === " " ||
-                i < lettresRevelees
-            ) {
-                masque += nom[i];
-            } else {
-                masque += "?";
-            }
-
-        }
-
-        if (
-            nombreTentatives >=
-            10 + carteDuJour.nom.length - 1
-        ) {
-            aTrouveAvecIndices = true;
-        }
-
-        indiceNom.textContent =
-            `🔤 ${traductions[langueActuelle].nom} : ${masque}`;
-
-    }
-
 }
 
 function reduireScore(points) {
@@ -814,6 +759,15 @@ async function verifierReponse() {
     const resultatServeur = await response.json();
     statistiquesServeur = resultatServeur.statistiques;
 
+    if (resultatServeur.indiceNom) {
+        indiceNom.textContent =
+            `🔤 ${traductions[langueActuelle].nom} : ${resultatServeur.indiceNom}`;
+    }
+
+    if (resultatServeur.nom) {
+        carteDuJour.nom = resultatServeur.nom;
+    }
+
     const reponseNormalisee = reponse.toLowerCase();
 
     const essaiExistant = essais.find(
@@ -869,8 +823,6 @@ async function verifierReponse() {
 
                 playerId: playerId,
 
-                points: score,
-
                 numeroDefi: defiDuJour.numero,
 
             })
@@ -880,6 +832,8 @@ async function verifierReponse() {
         const scoreData = await scoreResponse.json();
 
         scoreTotal = scoreData.scoreTotal;
+        score = scoreData.pointsGagnes;
+        afficherScore();
         streak = scoreData.streak;
         meilleurStreak = scoreData.meilleurStreak;
 

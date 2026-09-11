@@ -52,6 +52,7 @@ async function obtenirEtatDepuisDB() {
             joueurs_vus,
             joueurs_ayant_trouve,
             visiteurs_vus,
+            tentatives_joueurs,
             pioche
         FROM etat
         WHERE id = 1
@@ -81,6 +82,11 @@ async function obtenirEtatDepuisDB() {
         joueursVus: etatDB.joueurs_vus || [],
         joueursAyantTrouve: etatDB.joueurs_ayant_trouve || [],
         visiteursVus: etatDB.visiteurs_vus || [],
+        tentativesJoueurs: Array.isArray(etatDB.tentatives_joueurs)
+            ? etatDB.tentatives_joueurs
+            : typeof etatDB.tentatives_joueurs === "string"
+                ? JSON.parse(etatDB.tentatives_joueurs)
+                : [],
         pioche: etatDB.pioche || [],
         historique: historiqueResult.rows.map(defi => ({
             numero: defi.numero,
@@ -146,7 +152,8 @@ async function sauvegarderEtat() {
             joueurs_vus = $6,
             joueurs_ayant_trouve = $7,
             visiteurs_vus = $8,
-            pioche = $9
+            tentatives_joueurs = $9,
+            pioche = $10
         WHERE id = 1
     `, [
         etat.date,
@@ -157,6 +164,7 @@ async function sauvegarderEtat() {
         etat.joueursVus,
         etat.joueursAyantTrouve,
         etat.visiteursVus,
+        JSON.stringify(etat.tentativesJoueurs),
         etat.pioche
     ]);
 
@@ -397,6 +405,28 @@ console.log(`${maps.length} cartes chargées.`);
 app.use(express.static(__dirname));
 app.use(express.json()); // Recoit la réponse du joueur
 
+function genererIndiceNom(nom, tentatives) {
+    if (tentatives < 9) {
+        return "????";
+    }
+
+    const lettresRevelees = tentatives - 8;
+    let masque = "";
+
+    for (let i = 0; i < nom.length; i++) {
+        if (
+            nom[i] === " " ||
+            i < lettresRevelees
+        ) {
+            masque += nom[i];
+        } else {
+            masque += "?";
+        }
+    }
+
+    return masque;
+}
+
 // Page d'accueil
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
@@ -448,7 +478,17 @@ app.get("/api/map", async (req, res) => {
     console.log("4 - Avant res.json");
     res.json({
 
-        carte: carteActuelle,
+        carte: {
+            id: carteActuelle.id,
+            jeu: carteActuelle.jeu,
+            annee: carteActuelle.annee,
+            codeJeu: carteActuelle.codeJeu,
+            difficulte: carteActuelle.difficulte,
+
+            ...(playerId && etat.joueursAyantTrouve.includes(playerId)
+                ? { nom: carteActuelle.nom }
+                : {})
+        },
         defi: {
             numero: etat.numeroDefi,
             prochainReset: prochainReset.getTime()
@@ -467,6 +507,22 @@ app.get("/api/map", async (req, res) => {
     console.log("5 - Après res.json");
 });
 
+// Envoie uniquement l'image de la carte du défi actuel
+app.get("/api/image", async (req, res) => {
+
+    await initialiserCarteDuJour();
+
+    const cheminImage = path.join(
+        __dirname,
+        "images",
+        carteActuelle.codeJeu,
+        carteActuelle.image
+    );
+
+    res.sendFile(cheminImage);
+
+});
+
 // Vérifie la réponse du joueur
 app.post("/api/verifier", async (req, res) => {
     await initialiserCarteDuJour();
@@ -479,6 +535,33 @@ app.post("/api/verifier", async (req, res) => {
         });
     }
     const playerId = req.body.playerId;
+
+    if (!etat.tentativesJoueurs) {
+        etat.tentativesJoueurs = [];
+    }
+
+    let tentativeJoueur = etat.tentativesJoueurs.find(
+        joueur => joueur.playerId === playerId
+    );
+
+    if (!tentativeJoueur) {
+
+        tentativeJoueur = {
+            playerId: playerId,
+            tentatives: 0,
+            debut: new Date().toISOString()
+        };
+
+        etat.tentativesJoueurs.push(tentativeJoueur);
+    }
+
+    tentativeJoueur.tentatives++;
+
+    const indiceNom = genererIndiceNom(
+        carte.nom,
+        tentativeJoueur.tentatives
+    );
+
     const utiliseTousLesIndices = req.body.utiliseTousLesIndices;
     const reponse = req.body.reponse
         .trim()
@@ -492,21 +575,30 @@ app.post("/api/verifier", async (req, res) => {
         etat.joueursVus.push(playerId);
         etat.joueurs++;
     }
+
     // Première réussite de ce joueur ?
+
     if (
         correcte &&
-        !utiliseTousLesIndices &&
         !etat.joueursAyantTrouve.includes(playerId)
     ) {
+
         etat.joueursAyantTrouve.push(playerId);
-        etat.reussites++;
+
+        if (!utiliseTousLesIndices) {
+            etat.reussites++;
+        }
+
     }
+
     await sauvegarderEtat();
     const pourcentage = etat.joueurs === 0
         ? 0
         : (etat.reussites / etat.joueurs) * 100;       
     res.json({
         correct: correcte,
+        indiceNom: indiceNom,
+        nom: correcte ? carte.nom : null,
         statistiques: {
             joueurs: etat.joueurs,
             reussites: etat.reussites,
@@ -560,12 +652,96 @@ async function obtenirJoueur(playerId) {
     return joueur;
 }
 
-async function ajouterScoreJoueur(playerId, points, numeroDefi) {
+function calculerScoreServeur(difficulte, tentatives, tempsEcoule) {
+
+    let score;
+    let scoreMinimum;
+
+    switch (difficulte) {
+
+        case "Facile":
+            score = 1000;
+            scoreMinimum = 100;
+        break;
+
+        case "Normale":
+            score = 2500;
+            scoreMinimum = 250;
+        break;
+
+        case "Difficile":
+            score = 5000;
+            scoreMinimum = 500;
+        break;
+
+        default:
+            throw new Error("Difficulté invalide.");
+    }
+
+    // Pénalité du temps
+    score -= tempsEcoule * 10;
+
+    // Division à partir de la 9e tentative
+    if (tentatives >= 9) {
+        score = Math.floor(score / 2);
+    }
+
+    // Toutes les tentatives sauf la dernière sont des mauvaises réponses
+    score -= (tentatives - 1) * 50;
+
+    // Respect du score minimum
+    if (score < scoreMinimum) {
+        score = scoreMinimum;
+    }
+
+    return score;
+}
+
+async function ajouterScoreJoueur(playerId, numeroDefi) {
+    console.log("Défi reçu par le serveur :", numeroDefi);
+    console.log("Défi actuel du serveur :", etat.numeroDefi);
+
+    if (numeroDefi !== etat.numeroDefi) {
+        throw new Error("Défi invalide.");
+    }
+
+    if (!etat.joueursAyantTrouve.includes(playerId)) {
+        throw new Error("Carte non trouvée.");
+    }
+
     const joueur = await obtenirJoueur(playerId);
+    const tentativeJoueur = etat.tentativesJoueurs.find(
+        joueur => joueur.playerId === playerId
+    );
+
+    if (!tentativeJoueur) {
+        throw new Error("Tentatives du joueur introuvables.");
+    }
+
+    const tentatives = tentativeJoueur.tentatives;
+
+    if (typeof tentatives !== "number" || tentatives < 1) {
+        throw new Error("Nombre de tentatives invalide.");
+    }
+
+    const debut = new Date(tentativeJoueur.debut);
+
+    if (isNaN(debut.getTime())) {
+        throw new Error("Temps de départ invalide.");
+    }
+
+    const tempsEcoule = Math.max(
+        0,
+        Math.floor((Date.now() - debut.getTime()) / 1000)
+    );
+
+    console.log("Temps écoulé côté serveur :", tempsEcoule, "secondes");
+
     console.log("=== STREAK ===");
     console.log("Dernier défi joué :", joueur.dernierDefiJoue);
     console.log("Défi actuel :", numeroDefi);
     console.log("Streak actuelle :", joueur.streak);
+
     if (
         joueur.dernierDefiJoue !== null &&
         joueur.dernierDefiJoue !== 0 &&
@@ -573,13 +749,24 @@ async function ajouterScoreJoueur(playerId, points, numeroDefi) {
     ) {
         return joueur;
     }
+
     // Empêche de reprendre les points
     if (joueur.defisRecompenses.includes(numeroDefi)) {
         return joueur;
     }
-    // Ajout du score
-    joueur.scoreTotal += points;
+
+    // Calcul du score côté serveur
+    const pointsCalcules = calculerScoreServeur(
+        carteActuelle.difficulte,
+        tentatives,
+        tempsEcoule
+    );
+
+    const scoreAvant = joueur.scoreTotal;
+    joueur.scoreTotal += pointsCalcules;
+    const pointsGagnes = joueur.scoreTotal - scoreAvant;
     joueur.defisRecompenses.push(numeroDefi);
+
     // Gestion de la streak
     if (joueur.dernierDefiJoue === numeroDefi - 1) {
         joueur.streak++;
@@ -587,11 +774,15 @@ async function ajouterScoreJoueur(playerId, points, numeroDefi) {
     else {
         joueur.streak = 1;
     }
+
     joueur.dernierDefiJoue = numeroDefi;
+
     if (joueur.streak > joueur.meilleurStreak) {
         joueur.meilleurStreak = joueur.streak;
     }
+
     console.log("Nouvelle streak :", joueur.streak);
+
     // Sauvegarde dans PostgreSQL
     await pool.query(`
         UPDATE joueurs
@@ -610,8 +801,12 @@ async function ajouterScoreJoueur(playerId, points, numeroDefi) {
         joueur.dernierDefiJoue,
         joueur.id
     ]);
+
     console.log("💾 Score sauvegardé dans PostgreSQL.");
-    return joueur;
+    return {
+        ...joueur,
+        pointsGagnes
+    };
 }
 
 app.get("/api/score/:playerId", async (req, res) => {
@@ -639,17 +834,16 @@ app.get("/api/score/:playerId", async (req, res) => {
 app.post("/api/ajouterScore", async (req, res) => {
     console.log("RECEPTION AJOUT SCORE :", req.body);
     const playerId = req.body.playerId;
-    const points = req.body.points;
     const numeroDefi = req.body.numeroDefi;
     try {
         const nouveauScore = await ajouterScoreJoueur(
             playerId,
-            points,
-            numeroDefi
+            numeroDefi,
         );
         console.log("REPONSE SCORE ENVOYEE :", nouveauScore);
         res.json({
             scoreTotal: nouveauScore.scoreTotal,
+            pointsGagnes: nouveauScore.pointsGagnes,
             streak: nouveauScore.streak,
             meilleurStreak: nouveauScore.meilleurStreak
         });
