@@ -202,36 +202,30 @@ choixLangue.addEventListener("change",()=>{
 
 async function chargerSuggestions() {
 
-    const response = await fetch("/api/cartes");
+    const recherche = inputReponse.value.trim();
+
+    if (recherche.length === 0) {
+
+        suggestions.innerHTML = "";
+        return;
+
+    }
+
+    const response = await fetch(
+        `/api/cartes?recherche=${encodeURIComponent(recherche)}`
+    );
 
     listeCartes = await response.json();
 
-}
-
-inputReponse.addEventListener("input", () => {
-
-    const recherche = inputReponse.value.toLowerCase();
-
     suggestions.innerHTML = "";
 
-    if (recherche.length === 0) {
-        return;
-    }
-
-
-    const resultats = listeCartes.filter(map =>
-        map.nom.toLowerCase().startsWith(recherche)
-    );
-
-
-    resultats.slice(0, 10).forEach(carte => {
+    listeCartes.forEach(carte => {
 
         const div = document.createElement("div");
 
         div.classList.add("suggestion");
 
         div.textContent = carte.nom;
-
 
         div.addEventListener("click", () => {
 
@@ -243,11 +237,14 @@ inputReponse.addEventListener("input", () => {
 
         });
 
-
         suggestions.appendChild(div);
 
     });
 
+}
+
+inputReponse.addEventListener("input", () => {
+    chargerSuggestions();
 });
 
 async function chargerScoreTotal() {
@@ -278,7 +275,6 @@ async function chargerCarte() {
 
     try {
 
-        await chargerSuggestions();
         const response = await fetch(
             `/api/map?playerId=${encodeURIComponent(playerId)}`
         );

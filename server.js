@@ -53,6 +53,7 @@ async function obtenirEtatDepuisDB() {
             joueurs_ayant_trouve,
             visiteurs_vus,
             tentatives_joueurs,
+            cartes_jouees,
             pioche
         FROM etat
         WHERE id = 1
@@ -87,6 +88,7 @@ async function obtenirEtatDepuisDB() {
             : typeof etatDB.tentatives_joueurs === "string"
                 ? JSON.parse(etatDB.tentatives_joueurs)
                 : [],
+        cartesJouees: etatDB.cartes_jouees || [],
         pioche: etatDB.pioche || [],
         historique: historiqueResult.rows.map(defi => ({
             numero: defi.numero,
@@ -113,6 +115,7 @@ let carteActuelle = null;
 async function creerNouvellePioche() {
 
     etat.pioche = maps.map(map => map.id);
+    etat.cartesJouees = [];
 
     for (let i = etat.pioche.length - 1; i > 0; i--) {
 
@@ -153,7 +156,8 @@ async function sauvegarderEtat() {
             joueurs_ayant_trouve = $7,
             visiteurs_vus = $8,
             tentatives_joueurs = $9,
-            pioche = $10
+            cartes_jouees = $10,
+            pioche = $11
         WHERE id = 1
     `, [
         etat.date,
@@ -165,6 +169,7 @@ async function sauvegarderEtat() {
         etat.joueursAyantTrouve,
         etat.visiteursVus,
         JSON.stringify(etat.tentativesJoueurs),
+        JSON.stringify(etat.cartesJouees),
         etat.pioche
     ]);
 
@@ -286,6 +291,40 @@ function obtenirDateDuDefi() {
 
 }
 
+async function integrerNouvellesCartesDansPioche() {
+
+    const nouvellesCartes = maps.filter(map =>
+        !etat.pioche.includes(map.id) &&
+        !etat.cartesJouees.includes(map.id)
+    );
+
+    if (nouvellesCartes.length === 0) {
+        return;
+    }
+
+    for (const carte of nouvellesCartes) {
+
+        etat.pioche.push(carte.id);
+
+    }
+
+    // Mélange la pioche après l'ajout des nouvelles cartes
+    for (let i = etat.pioche.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [etat.pioche[i], etat.pioche[j]] =
+        [etat.pioche[j], etat.pioche[i]];
+
+    }
+
+    await sauvegarderEtat();
+
+    console.log(
+        `➕ ${nouvellesCartes.length} nouvelle(s) carte(s) ajoutée(s) à la pioche.`
+    );
+}
+
 async function initialiserCarteDuJour() {
 
     const etatDB = await obtenirEtatDepuisDB();
@@ -298,6 +337,22 @@ async function initialiserCarteDuJour() {
 
     const aujourdHui = obtenirDateDuDefi();
 
+    // Migration des anciennes parties : si la carte actuelle n'est pas encore enregistrée comme jouée dans le cycle actuel, on l'ajoute.
+    if (
+        etat.carteId !== null &&
+        !etat.cartesJouees.includes(etat.carteId)
+    ) {
+
+        etat.cartesJouees.push(etat.carteId);
+
+        await sauvegarderEtat();
+
+        console.log(
+            "📝 Carte actuelle ajoutée à cartesJouees :",
+            etat.carteId
+        );
+    }
+
     // Première initialisation
     if (etat.date === null || etat.date === "") {
 
@@ -306,7 +361,7 @@ async function initialiserCarteDuJour() {
         }
 
         etat.carteId = etat.pioche.pop();
-
+        etat.cartesJouees.push(etat.carteId);
         etat.numeroDefi++;
 
         etat.joueurs = 0;
@@ -356,16 +411,21 @@ async function initialiserCarteDuJour() {
 
             }
 
-            // Nouvelle pioche si nécessaire
+            // Si la pioche actuelle est vide, on commence un nouveau cycle.
             if (etat.pioche.length === 0) {
 
                 await creerNouvellePioche();
+
+            } else {
+
+                // La pioche actuelle continue son cycle. Les nouvelles cartes sont ajoutées avant de choisir la prochaine carte.
+                await integrerNouvellesCartesDansPioche();
 
             }
 
             // Nouveau défi
             etat.carteId = etat.pioche.pop();
-
+            etat.cartesJouees.push(etat.carteId);
             etat.numeroDefi++;
 
             etat.joueurs = 0;
@@ -373,6 +433,7 @@ async function initialiserCarteDuJour() {
 
             etat.joueursVus = [];
             etat.joueursAyantTrouve = [];
+            etat.visiteursVus = [];
 
             // Jour suivant
             dateCourante.setUTCDate(
@@ -391,6 +452,19 @@ async function initialiserCarteDuJour() {
         await sauvegarderEtat();
 
     }
+
+    // Même jour :
+    // on ne recrée surtout pas une nouvelle pioche si elle est vide, car cela signifie que la carte actuelle est potentiellement la dernière carte du cycle.
+    else {
+
+        if (etat.pioche.length > 0) {
+
+            await integrerNouvellesCartesDansPioche();
+
+        }
+
+    }
+
     await synchroniserStreaks();
 
     carteActuelle = maps.find(
@@ -479,7 +553,6 @@ app.get("/api/map", async (req, res) => {
     res.json({
 
         carte: {
-            id: carteActuelle.id,
             jeu: carteActuelle.jeu,
             annee: carteActuelle.annee,
             codeJeu: carteActuelle.codeJeu,
@@ -858,13 +931,27 @@ app.post("/api/ajouterScore", async (req, res) => {
     }
 });
 
-// Permet au site de connaître le nom des maps
-app.get("/api/cartes", (req,res)=>{
-    res.json(
-        maps.map(map => ({
+app.get("/api/cartes", (req, res) => {
+
+    const recherche = (req.query.recherche || "")
+        .trim()
+        .toLowerCase();
+
+    if (recherche.length < 3) {
+        return res.json([]);
+    }
+
+    const resultats = maps
+        .filter(map =>
+            map.nom.toLowerCase().startsWith(recherche)
+        )
+        .slice(0, 10)
+        .map(map => ({
             nom: map.nom
-        }))
-    );
+        }));
+
+    res.json(resultats);
+
 });
 
 // Démarrage du serveur
