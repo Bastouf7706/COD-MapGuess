@@ -937,7 +937,7 @@ app.get("/api/cartes", (req, res) => {
         .trim()
         .toLowerCase();
 
-    if (recherche.length < 3) {
+    if (recherche.length === 0) {
         return res.json([]);
     }
 
