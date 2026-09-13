@@ -866,7 +866,23 @@ async function verifierReponse() {
 
 }
 
-function afficherPopupVictoire() {
+async function afficherPopupVictoire() {
+
+    try {
+
+        const response = await fetch("/api/statistiques");
+        const statistiquesActuelles = await response.json();
+
+        statistiquesServeur = statistiquesActuelles;
+
+    } catch (error) {
+
+        console.error(
+            "Impossible de récupérer les statistiques actuelles :",
+            error
+        );
+
+    }
 
     popupNumero.textContent =
     `🌍 ${traductions[langueActuelle].defi} • #${String(defiDuJour.numero).padStart(3,"0")}`;

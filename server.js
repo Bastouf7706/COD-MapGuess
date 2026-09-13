@@ -232,10 +232,10 @@ async function synchroniserStreaks() {
             continue;
         }
 
-        // Le joueur a joué un défi plus ancien :
-        // il a donc manqué au moins un défi.
+        // Le joueur a joué un défi plus ancien : il a donc manqué au moins un défi.
         if (
-            joueur.dernier_defi_joue < etat.numeroDefi - 1
+            joueur.dernier_defi_joue < etat.numeroDefi - 1 &&
+            joueur.streak !== 0
         ) {
 
             await pool.query(`
@@ -370,6 +370,7 @@ async function initialiserCarteDuJour() {
         etat.joueursVus = [];
         etat.joueursAyantTrouve = [];
         etat.visiteursVus = [];
+        etat.tentativesJoueurs = [];
 
         etat.date = aujourdHui;
 
@@ -434,6 +435,7 @@ async function initialiserCarteDuJour() {
             etat.joueursVus = [];
             etat.joueursAyantTrouve = [];
             etat.visiteursVus = [];
+            etat.tentativesJoueurs = [];
 
             // Jour suivant
             dateCourante.setUTCDate(
@@ -614,13 +616,16 @@ app.post("/api/verifier", async (req, res) => {
     }
 
     let tentativeJoueur = etat.tentativesJoueurs.find(
-        joueur => joueur.playerId === playerId
+    joueur =>
+        joueur.playerId === playerId &&
+        joueur.numeroDefi === etat.numeroDefi
     );
 
     if (!tentativeJoueur) {
 
         tentativeJoueur = {
             playerId: playerId,
+            numeroDefi: etat.numeroDefi,
             tentatives: 0,
             debut: new Date().toISOString()
         };
@@ -678,6 +683,23 @@ app.post("/api/verifier", async (req, res) => {
             pourcentage: pourcentage
         }
     });
+});
+
+// Renvoie les statistiques actuelles du défi sur la page de réussite
+app.get("/api/statistiques", async (req, res) => {
+
+    await initialiserCarteDuJour();
+
+    const pourcentage = etat.joueurs === 0
+        ? 0
+        : (etat.reussites / etat.joueurs) * 100;
+
+    res.json({
+        joueurs: etat.joueurs,
+        reussites: etat.reussites,
+        pourcentage: pourcentage
+    });
+
 });
 
 async function obtenirJoueur(playerId) {
