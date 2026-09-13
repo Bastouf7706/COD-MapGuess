@@ -829,6 +829,9 @@ async function verifierReponse() {
 
         scoreTotal = scoreData.scoreTotal;
         score = scoreData.pointsGagnes;
+        temps = scoreData.tempsEcoule;
+        chrono.textContent =
+            `${traductions[langueActuelle].temps} : ${convertirTemps(temps)}`;
         afficherScore();
         streak = scoreData.streak;
         meilleurStreak = scoreData.meilleurStreak;

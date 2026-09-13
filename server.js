@@ -900,7 +900,8 @@ async function ajouterScoreJoueur(playerId, numeroDefi) {
     console.log("💾 Score sauvegardé dans PostgreSQL.");
     return {
         ...joueur,
-        pointsGagnes
+        pointsGagnes,
+        tempsEcoule
     };
 }
 
@@ -939,6 +940,7 @@ app.post("/api/ajouterScore", async (req, res) => {
         res.json({
             scoreTotal: nouveauScore.scoreTotal,
             pointsGagnes: nouveauScore.pointsGagnes,
+            tempsEcoule: nouveauScore.tempsEcoule,
             streak: nouveauScore.streak,
             meilleurStreak: nouveauScore.meilleurStreak
         });
