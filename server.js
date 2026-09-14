@@ -336,6 +336,7 @@ async function initialiserCarteDuJour() {
     etat = etatDB;
 
     const aujourdHui = obtenirDateDuDefi();
+    let nouveauDefiCree = false;
 
     // Migration des anciennes parties : si la carte actuelle n'est pas encore enregistrée comme jouée dans le cycle actuel, on l'ajoute.
     if (
@@ -375,6 +376,7 @@ async function initialiserCarteDuJour() {
         etat.date = aujourdHui;
 
         await sauvegarderEtat();
+        nouveauDefiCree = true;
 
     }
 
@@ -452,6 +454,7 @@ async function initialiserCarteDuJour() {
         }
 
         await sauvegarderEtat();
+        nouveauDefiCree = true;
 
     }
 
@@ -467,7 +470,9 @@ async function initialiserCarteDuJour() {
 
     }
 
-    await synchroniserStreaks();
+    if (nouveauDefiCree) {
+        await synchroniserStreaks();
+    }
 
     carteActuelle = maps.find(
         map => map.id === etat.carteId
@@ -566,7 +571,8 @@ app.get("/api/map", async (req, res) => {
         },
         defi: {
             numero: etat.numeroDefi,
-            prochainReset: prochainReset.getTime()
+            prochainReset: prochainReset.getTime(),
+            heureServeur: Date.now()
         },
         precedent: cartePrecedente
             ? {

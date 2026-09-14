@@ -50,6 +50,7 @@ let aTrouveAvecIndices = false;
 let listeCartes = [];
 let traductions = {};
 let langueActuelle = localStorage.getItem("langue") || "fr";
+let decalageServeur = 0;
 
 let playerId = localStorage.getItem("playerId");
 
@@ -301,6 +302,7 @@ async function chargerCarte() {
         }
         defiDuJour = data.defi;
         precedent = data.precedent;
+        decalageServeur = data.defi.heureServeur - Date.now();
 
         window.cleDefi = `defi-${defiDuJour.numero}`;
         await chargerScoreTotal();
@@ -429,7 +431,7 @@ function demarrerCompteRebours(prochainReset) {
 
     intervalCompteRebours = setInterval(() => {
 
-        const maintenant = Date.now();
+        const maintenant = Date.now(); + decalageServeur;
 
         let tempsRestant = prochainReset - maintenant;
 
