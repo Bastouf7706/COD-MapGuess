@@ -13,14 +13,14 @@
     },
         {
         "id": 2,
-        "nom": "Blacklot",
+        "nom": "Backlot",
         "jeu": "Call of Duty 4: Modern Warfare",
         "annee": 2007,
         "codeJeu": "cod4",
-        "image": "Blacklot.webp",
+        "image": "Backlot.webp",
         "difficulte": "Difficile",
         "reponses": [
-            "blacklot"
+            "backlot"
         ]
     },
         {
