@@ -207,49 +207,23 @@ async function sauvegarderHistorique(defi) {
 async function synchroniserStreaks() {
 
     const result = await pool.query(`
-        SELECT
-            id,
-            streak,
-            dernier_defi_joue
-        FROM joueurs
-    `);
+        UPDATE joueurs
+        SET streak = 0
+        WHERE dernier_defi_joue IS NOT NULL
+          AND dernier_defi_joue <> 0
+          AND dernier_defi_joue < $1 - 1
+          AND streak <> 0
+        RETURNING id
+    `, [
+        etat.numeroDefi
+    ]);
 
     for (const joueur of result.rows) {
 
-        // Aucun défi joué : rien à faire
-        if (
-            joueur.dernier_defi_joue === null ||
-            joueur.dernier_defi_joue === 0
-        ) {
-            continue;
-        }
+        console.log(
+            `🔄 Streak réinitialisée pour le joueur ${joueur.id}`
+        );
 
-        // Le joueur a joué le défi précédent :
-        // sa série est toujours valide.
-        if (
-            joueur.dernier_defi_joue === etat.numeroDefi - 1
-        ) {
-            continue;
-        }
-
-        // Le joueur a joué un défi plus ancien : il a donc manqué au moins un défi.
-        if (
-            joueur.dernier_defi_joue < etat.numeroDefi - 1 &&
-            joueur.streak !== 0
-        ) {
-
-            await pool.query(`
-                UPDATE joueurs
-                SET streak = 0
-                WHERE id = $1
-            `, [
-                joueur.id
-            ]);
-
-            console.log(
-                `🔄 Streak réinitialisée pour le joueur ${joueur.id}`
-            );
-        }
     }
 
     console.log("✅ Synchronisation des streaks terminée.");
