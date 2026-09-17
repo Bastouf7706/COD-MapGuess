@@ -1,3 +1,7 @@
+/* ============================= */
+/*          VERSION MOBILE       */
+/* ============================= */
+
 body{
 
     margin:0;
@@ -610,4 +614,225 @@ text-decoration: underline;
 
 .boutonPatchNotes:hover {
     background: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================= */
+/*          VERSION MOBILE       */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        padding: 0 12px;
+    }
+
+    /* ---------- HEADER ---------- */
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .header h1 {
+        order: 1;
+        font-size: 32px;
+        margin: 20px 0 10px;
+        letter-spacing: 3px;
+        line-height: 1.2;
+    }
+
+    .stats-header {
+        order: 2;
+        position: static;
+        transform: none;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 0;
+        text-align: center;
+    }
+
+    .stats-header p {
+        font-size: 14px;
+        margin: 0;
+    }
+
+    #scoreTotal {
+        order: 3;
+        position: static;
+        transform: none;
+        margin: 0;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .langue {
+        order: 4;
+        position: static;
+        transform: none;
+    }
+
+    #choixLangue {
+        width: auto;
+        max-width: 100%;
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+
+    .boutonPatchNotes {
+        order: 5;
+        margin: 5px auto 0;
+    }
+
+    /* ---------- COMPTE À REBOURS ---------- */
+
+    .prochain-defi {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .prochain-defi p:last-child {
+        font-size: 20px;
+    }
+
+    /* ---------- BANDEAU DÉFI ---------- */
+
+    #numeroDefi {
+        font-size: 18px;
+        letter-spacing: 2px;
+    }
+
+    /* ---------- ZONE DE JEU ---------- */
+
+    .zone-jeu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 20px;
+        gap: 20px;
+    }
+
+    .stats-gauche,
+    .indices {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+    .stats-gauche {
+        font-size: 16px;
+        padding: 15px;
+    }
+
+    .indices {
+        padding: 15px;
+    }
+
+    .centre-jeu {
+        width: 100%;
+    }
+
+    /* ---------- MAP ---------- */
+
+    .map {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 7 / 4;
+        box-sizing: border-box;
+    }
+
+    .map img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* ---------- RÉPONSE ---------- */
+
+    .zone-reponse {
+        width: 100%;
+        margin-top: 20px;
+        box-sizing: border-box;
+    }
+
+    input {
+        width: 100%;
+        font-size: 16px;
+        padding: 13px;
+    }
+
+    #suggestions {
+        max-height: 180px;
+    }
+
+    .suggestion {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* ---------- DIFFICULTÉ ---------- */
+
+    .centre-jeu h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    /* ---------- ESSAIS ---------- */
+
+    #listeEssais li {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* ---------- POPUP ---------- */
+
+    #fenetreVictoire {
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .popup {
+        width: 100%;
+        max-width: 450px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+    .popup h2 {
+        font-size: 20px;
+    }
+
+    .popup p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .popup button {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    /* ---------- PATCH NOTES ---------- */
+
+    .patchnote-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .patchnote {
+        padding: 18px;
+    }
+
 }
