@@ -3130,6 +3130,978 @@
         "reponses": [
             "turista"
         ]
+    },
+                {
+        "id": 263,
+        "nom": "Aachen",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "Aachen.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "aachen"
+        ]
+    },
+                    {
+        "id": 264,
+        "nom": "Airship",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Airship.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "airship"
+        ]
+    },
+                    {
+        "id": 265,
+        "nom": "Anthropoid",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Anthropoid.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "anthropoid"
+        ]
+    },
+                    {
+        "id": 266,
+        "nom": "Ardennes Forest",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "Ardennes_Forest.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "ardennes forest", "foret des ardennes"
+        ]
+    },
+                    {
+        "id": 267,
+        "nom": "Chancellery",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Chancellery.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "chancellery"
+        ]
+    },
+                    {
+        "id": 268,
+        "nom": "Dunkirk",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Dunkirk.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "dunkirk"
+        ]
+    },
+                    {
+        "id": 269,
+        "nom": "Egypt",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Egypt.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "egypt"
+        ]
+    },
+                    {
+        "id": 270,
+        "nom": "Excavation",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Excavation.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "excavation"
+        ]
+    },
+                    {
+        "id": 271,
+        "nom": "Flak Tower",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "Flak_Tower.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "flak tower"
+        ]
+    },
+                    {
+        "id": 272,
+        "nom": "Gibraltar",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "Gibraltar.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "gibraltar"
+        ]
+    },
+                    {
+        "id": 273,
+        "nom": "Gustav Cannon",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "Gustav_Cannon.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "gustav cannon"
+        ]
+    },
+                    {
+        "id": 274,
+        "nom": "HQ",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "HQ.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "hq"
+        ]
+    },
+                    {
+        "id": 275,
+        "nom": "London Docks",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "London_Docks.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "london docks"
+        ]
+    },
+                    {
+        "id": 276,
+        "nom": "Market Garden",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Market_Garden.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "market garden"
+        ]
+    },
+                    {
+        "id": 277,
+        "nom": "Monte Cassino",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Monte_Cassino.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "monte cassino"
+        ]
+    },
+                    {
+        "id": 278,
+        "nom": "Pointe du Hoc",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "Pointe_du_Hoc.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "pointe du hoc"
+        ]
+    },
+                    {
+        "id": 279,
+        "nom": "Sainte Marie du Mont",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "Sainte_Marie_du_Mont.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "sainte marie du mont"
+        ]
+    },
+                    {
+        "id": 280,
+        "nom": "Sandbox",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Sandbox.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "sandbox"
+        ]
+    },
+                    {
+        "id": 281,
+        "nom": "Stalingrad",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Stalingrad.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "stalingrad"
+        ]
+    },
+                    {
+        "id": 282,
+        "nom": "USS Texas",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2017,
+        "codeJeu": "wwii",
+        "image": "USS_Texas.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "uss texas"
+        ]
+    },
+                    {
+        "id": 283,
+        "nom": "V2",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "V2.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "v2"
+        ]
+    },
+                    {
+        "id": 284,
+        "nom": "Valkyrie",
+        "jeu": "Call of Duty: WWII",
+        "annee": 2018,
+        "codeJeu": "wwii",
+        "image": "Valkyrie.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "valkyrie"
+        ]
+    },
+                    {
+        "id": 285,
+        "nom": "Arsenal",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Arsenal.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "arsenal"
+        ]
+    },
+        {
+        "id": 286,
+        "nom": "Artifact",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Artifact.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "artifact"
+        ]
+    },
+                        {
+        "id": 287,
+        "nom": "Casino",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Casino.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "casino"
+        ]
+    },
+                        {
+        "id": 288,
+        "nom": "Contraband",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Contraband.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "contraband"
+        ]
+    },
+                        {
+        "id": 289,
+        "nom": "Der Schatten",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Der_Schatten.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "der schatten"
+        ]
+    },
+                        {
+        "id": 290,
+        "nom": "Elevation",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Elevation.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "elevation"
+        ]
+    },
+                        {
+        "id": 291,
+        "nom": "Frequency",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Frequency.webp",
+        "difficulte": "Facile",
+        "reponses": [
+            "frequency"
+        ]
+    },
+                        {
+        "id": 292,
+        "nom": "Gridlock",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Gridlock.webp",
+        "difficulte": "Facile",
+        "reponses": [
+            "gridlock"
+        ]
+    },
+                        {
+        "id": 293,
+        "nom": "Hacienda",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Hacienda.webp",
+        "difficulte": "Facile",
+        "reponses": [
+            "hacienda"
+        ]
+    },
+                        {
+        "id": 294,
+        "nom": "Icebreaker",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Icebreaker.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "icebreaker"
+        ]
+    },
+                        {
+        "id": 295,
+        "nom": "Lair",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Lair.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "lair"
+        ]
+    },
+                        {
+        "id": 296,
+        "nom": "Lockup",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Lockup.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "lockup"
+        ]
+    },
+                        {
+        "id": 297,
+        "nom": "Madagascar",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Madagascar.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "madagascar"
+        ]
+    },
+                        {
+        "id": 298,
+        "nom": "Masquerade",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Masquerade.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "masquerade"
+        ]
+    },
+                        {
+        "id": 299,
+        "nom": "Militia",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Militia.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "militia"
+        ]
+    },
+                        {
+        "id": 300,
+        "nom": "Morocco",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Morocco.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "morocco"
+        ]
+    },
+                        {
+        "id": 301,
+        "nom": "Payload",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Payload.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "payload"
+        ]
+    },
+                        {
+        "id": 302,
+        "nom": "Remnant",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2019,
+        "codeJeu": "bo4",
+        "image": "Remnant.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "remnant"
+        ]
+    },
+                        {
+        "id": 303,
+        "nom": "Seaside",
+        "jeu": "Call of Duty: Black Ops 4",
+        "annee": 2018,
+        "codeJeu": "bo4",
+        "image": "Seaside.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "seaside"
+        ]
+    },
+        {
+        "id": 304,
+        "nom": "Al Raab Airbase",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2021,
+        "codeJeu": "mw2019",
+        "image": "Al_Raab_Airbase.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "al raab airbase"
+        ]
+    },
+            {
+        "id": 305,
+        "nom": "Aniyah Incursion",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2020,
+        "codeJeu": "mw2019",
+        "image": "Aniyah_Incursion.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "Aniyah_Incursion"
+        ]
+    },
+            {
+        "id": 306,
+        "nom": "Arklov Peak",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2019,
+        "codeJeu": "mw2019",
+        "image": "Arklov_Peak.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "arklov peak"
+        ]
+    },
+            {
+        "id": 305,
+        "nom": "Atlas Superstore",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2020,
+        "codeJeu": "mw2019",
+        "image": "Atlas_Superstore.webp",
+        "difficulte": "Facile",
+        "reponses": [
+            "atlas superstore"
+        ]
+    },
+            {
+        "id": 306,
+        "nom": "Azhir Cave",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2019,
+        "codeJeu": "mw2019",
+        "image": "Azhir_Cave.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "azhir cave"
+        ]
+    },
+            {
+        "id": 307,
+        "nom": "Cheshire Park",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2020,
+        "codeJeu": "mw2019",
+        "image": "Cheshire_Park.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "cheshire park"
+        ]
+    },
+            {
+        "id": 308,
+        "nom": "Euphrates Bridge",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2019,
+        "codeJeu": "mw2019",
+        "image": "Euphrates_Bridge.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "euphrates bridge"
+        ]
+    },
+            {
+        "id": 309,
+        "nom": "Gun Runner",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2021,
+        "codeJeu": "mw2019",
+        "image": "Gun_Runner.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "gun runner"
+        ]
+    },
+            {
+        "id": 310,
+        "nom": "Hackney Yard",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2019,
+        "codeJeu": "mw2019",
+        "image": "Hackney_Yard.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "al raab airbase"
+        ]
+    },
+            {
+        "id": 311,
+        "nom": "Hovec Sawmill",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2020,
+        "codeJeu": "mw2019",
+        "image": "Hovec_Sawmill.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "hovec sawmill"
+        ]
+    },
+            {
+        "id": 312,
+        "nom": "Khandor Hideout",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2020,
+        "codeJeu": "mw2019",
+        "image": "Khandor_Hideout.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "khandor hideout"
+        ]
+    },
+            {
+        "id": 313,
+        "nom": "Mialstor Tank Factory",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2020,
+        "codeJeu": "mw2019",
+        "image": "Mialstor_Tank_Factory.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "mialstor tank factory"
+        ]
+    },
+            {
+        "id": 314,
+        "nom": "Petrov Oil Rig",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2020,
+        "codeJeu": "mw2019",
+        "image": "Petrov_Oil_Rig.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "petrov oil rig"
+        ]
+    },
+            {
+        "id": 315,
+        "nom": "Piccadilly",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2019,
+        "codeJeu": "mw2019",
+        "image": "Piccadilly.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "piccadilly"
+        ]
+    },
+            {
+        "id": 316,
+        "nom": "Rammaza",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2019,
+        "codeJeu": "mw2019",
+        "image": "Rammaza.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "rammaza"
+        ]
+    },
+            {
+        "id": 317,
+        "nom": "Shoot House",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2019,
+        "codeJeu": "mw2019",
+        "image": "Shoot_House.webp",
+        "difficulte": "Facile",
+        "reponses": [
+            "shoot house"
+        ]
+    },
+            {
+        "id": 318,
+        "nom": "St Petrograd",
+        "jeu": "Call of Duty: Modern Warfare",
+        "annee": 2019,
+        "codeJeu": "mw2019",
+        "image": "StPetrograd.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "st petrograd"
+        ]
+    },
+            {
+        "id": 319,
+        "nom": "Amerika",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Amerika.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "amerika"
+        ]
+    },
+                {
+        "id": 320,
+        "nom": "Apocalypse",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Apocalypse.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "apocalypse"
+        ]
+    },
+                {
+        "id": 321,
+        "nom": "Armada",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "Armada.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "armada"
+        ]
+    },
+                {
+        "id": 322,
+        "nom": "Cartel",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "Cartel.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "cartel"
+        ]
+    },
+                {
+        "id": 323,
+        "nom": "Checkmate",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "Checkmate.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "checkmate"
+        ]
+    },
+                {
+        "id": 324,
+        "nom": "Collateral",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Collateral.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "collateral"
+        ]
+    },
+                {
+        "id": 325,
+        "nom": "Deprogram",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Deprogram.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "deprogram"
+        ]
+    },
+                {
+        "id": 326,
+        "nom": "Die Maschine",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "Die_Maschine.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "die maschine"
+        ]
+    },
+                {
+        "id": 327,
+        "nom": "Diesel",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Diesel.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "diesel"
+        ]
+    },
+                    {
+        "id": 328,
+        "nom": "Echelon",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Echelon.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "echelon"
+        ]
+    },
+                    {
+        "id": 329,
+        "nom": "Firebase Z",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Firebase Z.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "firebase z"
+        ]
+    },
+                    {
+        "id": 330,
+        "nom": "Forsaken",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Forsaken.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "forsaken", "l'oublié"
+        ]
+    },
+                    {
+        "id": 331,
+        "nom": "Garrison",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "Garrison.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "garrison"
+        ]
+    },
+                    {
+        "id": 332,
+        "nom": "Mauer der Toten",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Mauer_Der_Toten.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "mauer der toten"
+        ]
+    },
+                    {
+        "id": 333,
+        "nom": "Miami",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "Miami.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "miami"
+        ]
+    },
+                    {
+        "id": 334,
+        "nom": "Moscow",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "Moscow.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "moscow"
+        ]
+    },
+                    {
+        "id": 335,
+        "nom": "Satellite",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "Satellite.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "satellite"
+        ]
+    },
+                    {
+        "id": 336,
+        "nom": "The Pines",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2020,
+        "codeJeu": "cw",
+        "image": "The Pines.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "the pines"
+        ]
+    },
+                    {
+        "id": 337,
+        "nom": "Yamantau",
+        "jeu": "Call of Duty: Black Ops Cold War",
+        "annee": 2021,
+        "codeJeu": "cw",
+        "image": "Yamantau.webp",
+        "difficulte": "Difficile",
+        "reponses": [
+            "yamantau"
+        ]
+    },
+        {
+        "id": 338,
+        "nom": "Caldera",
+        "jeu": "Call of Duty: Warzone",
+        "annee": 2021,
+        "codeJeu": "wz",
+        "image": "Caldera.webp",
+        "difficulte": "Normale",
+        "reponses": [
+            "caldera"
+        ]
+    },
+            {
+        "id": 339,
+        "nom": "Fortune's Keep",
+        "jeu": "Call of Duty: Warzone",
+        "annee": 2022,
+        "codeJeu": "wz",
+        "image": "Fortunes_Keep.webp",
+        "difficulte": "Facile",
+        "reponses": [
+            "fortunes keep"
+        ]
+    },
+            {
+        "id": 340,
+        "nom": "Rebirth Island",
+        "jeu": "Call of Duty: Warzone",
+        "annee": 2020,
+        "codeJeu": "wz",
+        "image": "Rebirth_Island.webp",
+        "difficulte": "Facile",
+        "reponses": [
+            "rebirth island"
+        ]
+    },
+            {
+        "id": 341,
+        "nom": "Verdansk",
+        "jeu": "Call of Duty: Warzone",
+        "annee": 2020,
+        "codeJeu": "wz",
+        "image": "Verdansk.webp",
+        "difficulte": "Facile",
+        "reponses": [
+            "verdansk"
+        ]
     }
 
 ]
