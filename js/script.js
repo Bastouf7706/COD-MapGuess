@@ -216,7 +216,21 @@ async function chargerSuggestions() {
         `/api/cartes?recherche=${encodeURIComponent(recherche)}`
     );
 
-    listeCartes = await response.json();
+    const toutesLesCartes = await response.json();
+
+    // Récupère les noms déjà tentés par le joueur
+    const cartesDejaTentees = new Set(
+        essais.map(essai =>
+            essai.texte.trim().toLowerCase()
+        )
+    );
+
+    // Retire de la liste les cartes déjà tentées
+    listeCartes = toutesLesCartes.filter(carte =>
+        !cartesDejaTentees.has(
+            carte.nom.trim().toLowerCase()
+        )
+    );
 
     suggestions.innerHTML = "";
 
@@ -736,6 +750,7 @@ async function verifierReponse() {
 
     input.value = "";
     input.focus();
+    suggestions.innerHTML = "";
 
     const response = await fetch("/api/verifier", {
 
